@@ -1,0 +1,45 @@
+---
+const apps = [
+  { label: 'Fabrication', image: '/images/applications/fabrication.webp' },
+  { label: 'Manufacturing', image: '/images/applications/manufacturing.webp' },
+  { label: 'Maintenance', image: '/images/applications/maintenance.webp' },
+  { label: 'Material Handling', image: '/images/applications/material-handling.webp' },
+  { label: 'Power Transmission', image: '/images/applications/power-transmission.webp' },
+  { label: 'Electrical Systems', image: '/images/applications/electrical-systems.webp' },
+];
+---
+<section class="py-24 bg-[#0B0F12]" aria-labelledby="applications-heading">
+  <div class="container">
+    <div class="flex items-center gap-3 mb-4 reveal">
+      <span class="block w-6 h-px bg-[#F97316]"></span>
+      <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family: var(--font-heading); letter-spacing: 0.18em">Applications</span>
+    </div>
+    <h2 id="applications-heading" class="text-2xl lg:text-3xl font-700 text-[#F4F5F2] mb-10 reveal" style="font-family: var(--font-heading)">Industrial Applications</h2>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-white/5 reveal">
+      {apps.map(app => (
+        <div class="group relative aspect-square bg-[#151C21] overflow-hidden">
+          <img
+            src={app.image}
+            alt={app.label}
+            width="300"
+            height="300"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover opacity-40 transition-opacity duration-300 group-hover:opacity-60"
+            onerror="this.style.display='none'"
+          />
+          <!-- Orange overlay on hover -->
+          <div class="absolute inset-0 bg-[#F97316]/0 group-hover:bg-[#F97316]/10 transition-colors duration-300"></div>
+          <div class="absolute inset-0 flex items-end p-4">
+            <span class="text-xs font-600 text-[#F4F5F2] leading-tight" style="font-family: var(--font-heading)">{app.label}</span>
+          </div>
+          <!-- Corner mark -->
+          <svg class="absolute top-2 left-2 w-4 h-4 opacity-30" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M0 8V0H8" stroke="#F97316" stroke-width="1"/>
+          </svg>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  tight?: boolean;
+  noPadTop?: boolean;
+}
+const { eyebrow, title, subtitle, tight = false, noPadTop = false } = Astro.props;
+---
+<div class={`bg-[#0B0F12] border-b border-white/10 ${noPadTop ? 'pt-8 pb-10' : tight ? 'pt-28 pb-10' : 'pt-32 pb-16'}`}>
+  <div class="container">
+    {eyebrow && (
+      <div class="flex items-center gap-3 mb-4">
+        <span class="block w-6 h-px bg-[#F97316]"></span>
+        <span class="text-xs text-[#F97316] tracking-widest" style="font-family:var(--font-heading);letter-spacing:0.18em">{eyebrow}</span>
+      </div>
+    )}
+    <h1 class="text-3xl lg:text-5xl font-700 text-[#F4F5F2] leading-tight" style="font-family:var(--font-heading)">{title}</h1>
+    {subtitle && <p class="mt-4 text-[#AAB4BA] text-base max-w-2xl leading-relaxed">{subtitle}</p>}
+  </div>
+</div>

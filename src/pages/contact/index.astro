@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import '../../styles/global.css';
+
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact AM Industrial',
+  url: Astro.url.href,
+};
+---
+<BaseLayout
+  title="Contact — AM Industrial | Industrial Products & Manufacturing"
+  description="Contact AM Industrial for product enquiries, quotes and industrial supply requirements. Send your requirement and we will respond promptly."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+    <PageHero
+      eyebrow="Contact"
+      title="Get in Touch"
+      subtitle="Send us your product requirement or enquiry and we will respond promptly."
+      noPadTop
+    />
+
+    <section class="py-16 bg-[#0B0F12]">
+      <div class="container">
+        <div class="grid lg:grid-cols-2 gap-16">
+
+          <!-- Contact info -->
+          <div>
+            <dl class="space-y-6 mb-10">
+              {[
+                { label: 'Company', value: 'A M Enterprise' },
+                { label: 'Address', value: 'Rajkot, Gujarat' },
+                { label: 'Phone', value: '9737363005' },
+                { label: 'Email', value: 'aakashbhimani18@gmail.com' },
+                { label: 'Business Hours', value: '8:00 AM - 6:00 PM' },
+              ].map((item) => (
+                <div class="flex gap-6 pb-5 border-b border-white/5">
+                  <dt class="w-28 flex-shrink-0 text-xs text-[#AAB4BA]/60 pt-0.5">{item.label}</dt>
+                  <dd class="text-sm text-[#F4F5F2]">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {whatsapp && (
+              <a
+                href={`https://wa.me/${whatsapp}`}
+                target="_blank" rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#F4F5F2] text-sm hover:border-white/40 transition-colors mb-8"
+                style="font-family:var(--font-heading)"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-[#F97316]" aria-hidden="true">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                WhatsApp Us
+              </a>
+            )}
+
+            <!-- Map placeholder -->
+            <!-- <div class="aspect-video bg-[#151C21] border border-white/10 flex items-center justify-center">
+              <p class="text-xs text-[#AAB4BA]/30">[Google Maps embed — add iframe here]</p>
+            </div> -->
+          </div>
+
+          <!-- Form -->
+          <div>
+            <form id="contact-form" action="#" method="POST" novalidate class="space-y-5" aria-label="Contact form">
+              <p class="text-xs text-[#AAB4BA]/40 mb-2">[Connect form to Formspree / Resend / custom backend — replace action="#" with endpoint URL]</p>
+
+              {[
+                { id: 'name', label: 'Name', type: 'text', required: true, autocomplete: 'name' },
+                { id: 'company', label: 'Company', type: 'text', required: false, autocomplete: 'organization' },
+                { id: 'phone', label: 'Phone', type: 'tel', required: false, autocomplete: 'tel' },
+                { id: 'email', label: 'Email', type: 'email', required: true, autocomplete: 'email' },
+                { id: 'product', label: 'Product / Requirement', type: 'text', required: false, autocomplete: 'off' },
+              ].map((f) => (
+                <div>
+                  <label for={f.id} class="block text-xs text-[#AAB4BA] mb-1.5" style="font-family:var(--font-heading)">
+                    {f.label}{f.required && <span class="text-[#F97316] ml-0.5" aria-hidden="true">*</span>}
+                  </label>
+                  <input
+                    type={f.type} id={f.id} name={f.id}
+                    required={f.required} autocomplete={f.autocomplete}
+                    class="w-full bg-[#151C21] border border-white/10 text-[#F4F5F2] text-sm px-4 py-3 focus:outline-none focus:border-[#F97316] transition-colors placeholder:text-[#AAB4BA]/20"
+                  />
+                </div>
+              ))}
+
+              <div>
+                <label for="message" class="block text-xs text-[#AAB4BA] mb-1.5" style="font-family:var(--font-heading)">Message</label>
+                <textarea id="message" name="message" rows="4" class="w-full bg-[#151C21] border border-white/10 text-[#F4F5F2] text-sm px-4 py-3 focus:outline-none focus:border-[#F97316] transition-colors resize-none placeholder:text-[#AAB4BA]/20"></textarea>
+              </div>
+
+              <!-- Honeypot -->
+              <div class="hidden" aria-hidden="true">
+                <input type="text" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div id="form-status" role="status" aria-live="polite" class="text-sm hidden"></div>
+
+              <button type="submit" class="w-full px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:ring-offset-2 focus:ring-offset-[#0B0F12]" style="font-family:var(--font-heading)">
+                Send Enquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if ((form.elements.namedItem('website') as HTMLInputElement)?.value) return;
+    const action = form.action;
+    if (!action || action === '#' || action === window.location.href) {
+      status.textContent = 'Form endpoint not configured. Please contact us directly.';
+      status.className = 'text-sm text-[#FACC15]';
+      status.classList.remove('hidden');
+      return;
+    }
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const res = await fetch(action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (res.ok) { status.textContent = 'Sent. We will be in touch shortly.'; status.className = 'text-sm text-green-400'; form.reset(); }
+      else throw new Error();
+    } catch { status.textContent = 'Something went wrong. Please try again.'; status.className = 'text-sm text-red-400'; }
+    finally { status.classList.remove('hidden'); btn.disabled = false; btn.textContent = 'Send Enquiry'; }
+  });
+</script>

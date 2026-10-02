@@ -1,0 +1,54 @@
+---
+import ProductCard from './ProductCard.astro';
+
+const categories = [
+  { number: '01', name: 'Welding Rods',       description: 'Reliable welding consumables for industrial fabrication and structural work.',         href: '/products/welding-rods/',           image: '/images/products/welding-rods/welding-rods.png' },
+  { number: '02', name: 'Welding Machines',   description: 'Industrial welding machines for demanding production environments.',                   href: '/products/welding-machines/',        image: '/images/products/welding-machines/welding-mechine.jpg' },
+  { number: '03', name: 'Cutting Discs',      description: 'Precision cutting discs for metal fabrication and industrial cutting.',                href: '/products/cutting-discs/',           image: '/images/products/cutting-discs/cutting-discs.jpg' },
+  { number: '04', name: 'Chain Pulley Blocks',description: 'Material handling equipment for safe and efficient load movement.',                    href: '/products/chain-pulley/',            image: '/images/products/chain-pulley/chain-pulley.jpg' },
+  { number: '05', name: 'Motors',             description: 'Industrial electric motors for a range of drive and power applications.',              href: '/products/motors/',                  image: '/images/products/motors/motor-10hp.jpg' },
+  { number: '06', name: 'Gears & Gearboxes', description: 'Power transmission gears and gearboxes for industrial machinery.',                    href: '/products/gears/',                   image: '/images/products/gearbox/horizontal-gearbox.jpg' },
+  { number: '07', name: 'Conveyor Belts',     description: 'Conveyor belt systems for material transport in industrial settings.',                 href: '/products/conveyor-belts/',          image: '/images/products/conveyor-belts/conveyor-belt-1.jpg' },
+  { number: '08', name: 'Electrical Panels',  description: 'Electrical control panels for industrial power distribution and control.',             href: '/products/electrical-panels/',       image: '/images/products/electrical-panels/electric-panel.jpg' },
+  { number: '09', name: 'Rotary Kilns',       description: 'Industrial rotary kilns for cement, gypsum and mineral thermal processing.',           href: '/products/manufactured-components/', image: '/images/products/kiln/rotary-kiln.jpg' },
+  { number: '10', name: 'Mixture Machines',   description: '2-ton capacity industrial mixture machines for construction and mineral applications.', href: '/products/manufactured-components/', image: '/images/products/mixture/mixture-mechine-1.jpg' },
+];
+---
+<section class="py-24 lg:py-32 bg-[#11171B]" aria-labelledby="products-heading">
+  <div class="container">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14 reveal">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="block w-6 h-px bg-[#F97316]"></span>
+          <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family: var(--font-heading); letter-spacing: 0.18em">Product Range</span>
+        </div>
+        <h2 id="products-heading" class="text-3xl lg:text-4xl font-700 text-[#F4F5F2]" style="font-family: var(--font-heading)">Industrial Products</h2>
+      </div>
+      <p class="text-[#AAB4BA] text-sm max-w-sm lg:text-right">Products selected for demanding industrial applications.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-white/5">
+      {categories.map((cat, i) => (
+        <div class="reveal bg-[#11171B]" style={`transition-delay: ${(i % 4) * 0.05}s`}>
+          <ProductCard
+            number={cat.number}
+            name={cat.name}
+            description={cat.description}
+            href={cat.href}
+            imageSrc={cat.image}
+            imageAlt={cat.name}
+          />
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center reveal">
+      <a href="/products/" class="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-sm text-[#F4F5F2] hover:border-[#F97316] hover:text-[#F97316] transition-all duration-200" style="font-family: var(--font-heading)">
+        View All Products
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

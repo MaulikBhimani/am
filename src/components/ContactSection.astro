@@ -1,0 +1,146 @@
+---
+---
+<section class="py-24 bg-[#0B0F12]" aria-labelledby="contact-heading" id="contact">
+  <div class="container">
+    <div class="grid lg:grid-cols-2 gap-16">
+
+      <!-- Info -->
+      <div class="reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="block w-6 h-px bg-[#F97316]"></span>
+          <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family: var(--font-heading); letter-spacing: 0.18em">Contact</span>
+        </div>
+        <h2 id="contact-heading" class="text-2xl lg:text-4xl font-700 text-[#F4F5F2] mb-8" style="font-family: var(--font-heading)">Get in Touch</h2>
+
+        <dl class="space-y-5 text-sm">
+          {[
+            { label: 'Company', value: '[Company Name]' },
+            { label: 'Address', value: '[Company Address — Placeholder]' },
+            { label: 'Phone', value: '[Phone Number — Placeholder]' },
+            { label: 'Email', value: '[Email Address — Placeholder]' },
+            { label: 'Business Hours', value: '[Business Hours — Placeholder]' },
+          ].map(item => (
+            <div class="flex gap-4">
+              <dt class="w-28 text-[#AAB4BA]/60 flex-shrink-0">{item.label}</dt>
+              <dd class="text-[#F4F5F2]">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <!-- Map placeholder -->
+        <div class="mt-8 aspect-video bg-[#151C21] border border-white/10 flex items-center justify-center">
+          <p class="text-xs text-[#AAB4BA]/40">[Google Maps embed — placeholder]</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="reveal" style="transition-delay: 0.1s">
+        <form
+          id="enquiry-form"
+          action="#"
+          method="POST"
+          novalidate
+          class="space-y-5"
+          aria-label="Product enquiry form"
+        >
+          <!-- Configure endpoint: replace action with Formspree/Resend/custom backend URL -->
+          <p class="text-xs text-[#AAB4BA]/40 mb-6">[Form endpoint not configured — connect Formspree, Resend, or custom backend]</p>
+
+          {[
+            { id: 'name', label: 'Name', type: 'text', required: true, autocomplete: 'name' },
+            { id: 'company', label: 'Company', type: 'text', required: false, autocomplete: 'organization' },
+            { id: 'phone', label: 'Phone', type: 'tel', required: false, autocomplete: 'tel' },
+            { id: 'email', label: 'Email', type: 'email', required: true, autocomplete: 'email' },
+            { id: 'product', label: 'Product / Requirement', type: 'text', required: false, autocomplete: 'off' },
+          ].map(field => (
+            <div>
+              <label for={field.id} class="block text-xs text-[#AAB4BA] mb-1.5" style="font-family: var(--font-heading)">
+                {field.label}{field.required && <span class="text-[#F97316] ml-0.5" aria-hidden="true">*</span>}
+              </label>
+              <input
+                type={field.type}
+                id={field.id}
+                name={field.id}
+                required={field.required}
+                autocomplete={field.autocomplete}
+                class="w-full bg-[#151C21] border border-white/10 text-[#F4F5F2] text-sm px-4 py-3 focus:outline-none focus:border-[#F97316] transition-colors duration-200 placeholder:text-[#AAB4BA]/30"
+              />
+            </div>
+          ))}
+
+          <div>
+            <label for="message" class="block text-xs text-[#AAB4BA] mb-1.5" style="font-family: var(--font-heading)">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              class="w-full bg-[#151C21] border border-white/10 text-[#F4F5F2] text-sm px-4 py-3 focus:outline-none focus:border-[#F97316] transition-colors duration-200 placeholder:text-[#AAB4BA]/30 resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Honeypot spam protection -->
+          <div class="hidden" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div id="form-status" role="status" aria-live="polite" class="text-sm hidden"></div>
+
+          <button
+            type="submit"
+            class="w-full px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:ring-offset-2 focus:ring-offset-[#0B0F12]"
+            style="font-family: var(--font-heading)"
+          >
+            Send Enquiry
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('enquiry-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const honeypot = (form.elements.namedItem('website') as HTMLInputElement)?.value;
+    if (honeypot) return; // spam
+
+    const action = form.action;
+    if (!action || action === '#' || action === window.location.href) {
+      status.textContent = 'Form endpoint not configured. Please contact us directly.';
+      status.className = 'text-sm text-[#FACC15]';
+      status.classList.remove('hidden');
+      return;
+    }
+
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch(action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        status.textContent = 'Enquiry sent. We will be in touch shortly.';
+        status.className = 'text-sm text-green-400';
+        form.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      status.textContent = 'Something went wrong. Please try again or contact us directly.';
+      status.className = 'text-sm text-red-400';
+    } finally {
+      status.classList.remove('hidden');
+      btn.disabled = false;
+      btn.textContent = 'Send Enquiry';
+    }
+  });
+</script>

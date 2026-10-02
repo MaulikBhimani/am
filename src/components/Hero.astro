@@ -1,0 +1,125 @@
+---
+---
+<!-- Hero: full-viewport industrial -->
+<section class="relative min-h-screen flex items-center overflow-hidden bg-[#0B0F12]" aria-label="Hero">
+
+  <!-- Background image / video layer -->
+  <div class="absolute inset-0 z-0">
+    <!-- Poster / static fallback -->
+    <img
+      src="/images/hero/hero-poster.webp"
+      alt=""
+      aria-hidden="true"
+      width="1920"
+      height="1080"
+      loading="eager"
+      decoding="async"
+      class="w-full h-full object-cover opacity-30"
+      onerror="this.style.display='none'"
+    />
+    <!-- Video (loaded by JS, respects reduced-motion + save-data) -->
+    <video
+      id="hero-video"
+      muted
+      loop
+      playsinline
+      preload="none"
+      poster="/images/hero/mixture machine.mp4"
+      class="absolute inset-0 w-full h-full object-cover opacity-25 hidden"
+      aria-hidden="true"
+    >
+      <source src="/images/hero/rotary-kiln.jpg" type="video/jpg" />
+      <source src="/images/hero/mixture-machine.mp4" type="video/mp4" />
+    </video>
+    <!-- Dark gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0B0F12] via-[#0B0F12]/80 to-[#0B0F12]/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F12] via-transparent to-transparent"></div>
+  </div>
+
+  <!-- SVG engineering grid decoration -->
+  <svg class="absolute inset-0 w-full h-full z-0 opacity-[0.04] pointer-events-none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#F4F5F2" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)" />
+  </svg>
+
+  <!-- Technical corner marks -->
+  <svg class="absolute top-24 right-8 lg:right-16 w-48 h-48 z-0 opacity-10 pointer-events-none" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <circle cx="100" cy="100" r="80" stroke="#F97316" stroke-width="0.5" stroke-dasharray="4 8"/>
+    <circle cx="100" cy="100" r="50" stroke="#F97316" stroke-width="0.5"/>
+    <line x1="100" y1="20" x2="100" y2="180" stroke="#F97316" stroke-width="0.5"/>
+    <line x1="20" y1="100" x2="180" y2="100" stroke="#F97316" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="4" fill="#F97316"/>
+  </svg>
+
+  <!-- Measurement marks right side -->
+  <svg class="absolute right-0 top-1/4 h-1/2 w-8 z-0 opacity-15 pointer-events-none hidden lg:block" viewBox="0 0 32 400" fill="none" aria-hidden="true">
+    {Array.from({length: 9}).map((_, i) => (
+      <g>
+        <line x1={i % 3 === 0 ? 8 : 16} y1={i * 50} x2="32" y2={i * 50} stroke="#F97316" stroke-width="0.5"/>
+        {i % 3 === 0 && <text x="4" y={i * 50 + 4} fill="#AAB4BA" font-size="8" font-family="monospace">{String(i * 50).padStart(3,'0')}</text>}
+      </g>
+    ))}
+  </svg>
+
+  <!-- Content -->
+  <div class="container relative z-10 pt-32 pb-24 lg:pt-40 lg:pb-32">
+    <div class="max-w-2xl">
+      <!-- Eyebrow -->
+      <div class="flex items-center gap-3 mb-6">
+        <span class="block w-8 h-px bg-[#F97316]"></span>
+        <span class="text-xs tracking-widest text-[#F97316] uppercase" style="font-family: var(--font-heading); letter-spacing: 0.2em">Industrial Trading &amp; Manufacturing</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-700 text-[#F4F5F2] leading-[1.05] mb-6" style="font-family: var(--font-heading)">
+        Industrial Products<br/>
+        <span class="text-[#F97316]">Built Around</span><br/>
+        Reliability.
+      </h1>
+
+      <!-- Supporting text -->
+      <p class="text-base lg:text-lg text-[#AAB4BA] max-w-xl mb-10 leading-relaxed">
+        A trusted source for welding, material handling, power transmission, conveyor and electrical products — with selected components manufactured in-house.
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap gap-4 mb-12">
+        <a href="/products/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white font-medium text-sm hover:bg-[#FF8A1F] transition-colors duration-200 group" style="font-family: var(--font-heading)">
+          Explore Products
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="transition-transform duration-200 group-hover:translate-x-1">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="/contact/" class="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-[#F4F5F2] font-medium text-sm hover:border-white/40 transition-colors duration-200" style="font-family: var(--font-heading)">
+          Request a Quote
+        </a>
+      </div>
+
+      <!-- Trust line -->
+      <p class="text-xs text-[#AAB4BA]/60 tracking-widest uppercase" style="letter-spacing: 0.15em">
+        Trading &nbsp;•&nbsp; Manufacturing &nbsp;•&nbsp; Industrial Supply
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0B0F12] to-transparent z-10 pointer-events-none"></div>
+</section>
+
+<script>
+  // Load video only if not reduced-motion and not save-data
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = (navigator as any).connection?.saveData;
+  if (!prefersReduced && !saveData) {
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    if (video) {
+      video.classList.remove('hidden');
+      video.load();
+      video.play().catch(() => {});
+    }
+  }
+</script>

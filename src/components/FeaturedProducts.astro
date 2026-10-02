@@ -1,0 +1,37 @@
+---
+const featured = [
+  { brand: 'Mangalam', product: 'Welding Rods', category: 'Welding Consumables', href: '/products/welding-rods/' },
+  { brand: 'Vulcan Welding', product: 'Welding Machine', category: 'Welding Equipment', href: '/products/welding-machines/' },
+  { brand: 'Yuri Smart Engineering', product: 'Cutting Disc', category: 'Cutting Products', href: '/products/cutting-discs/' },
+  { brand: 'Crompton', product: 'Industrial Motor', category: 'Electric Motors', href: '/products/motors/' },
+  { brand: 'Bharat Bijlee', product: 'Motor', category: 'Electric Motors', href: '/products/motors/' },
+];
+---
+<section class="py-24 bg-[#0B0F12] border-t border-white/10" aria-labelledby="featured-heading">
+  <div class="container">
+    <div class="flex items-center gap-3 mb-4 reveal">
+      <span class="block w-6 h-px bg-[#F97316]"></span>
+      <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family: var(--font-heading); letter-spacing: 0.18em">Available Brands</span>
+    </div>
+    <h2 id="featured-heading" class="text-2xl lg:text-3xl font-700 text-[#F4F5F2] mb-10 reveal" style="font-family: var(--font-heading)">Featured Industrial Products</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-px bg-white/5 reveal">
+      {featured.map(item => (
+        <a href={item.href} class="group bg-[#0B0F12] border border-transparent hover:border-white/10 p-6 flex flex-col gap-3 transition-all duration-200">
+          <span class="text-xs text-[#AAB4BA]/50 font-mono uppercase tracking-wider">{item.category}</span>
+          <div>
+            <p class="text-xs text-[#F97316] font-medium mb-1" style="font-family: var(--font-heading)">{item.brand}</p>
+            <p class="text-base font-600 text-[#F4F5F2]" style="font-family: var(--font-heading)">{item.product}</p>
+          </div>
+          <div class="mt-auto flex items-center gap-1 text-xs text-[#AAB4BA] group-hover:text-[#F97316] transition-colors">
+            <span>View</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform duration-200 group-hover:translate-x-1">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+      ))}
+    </div>
+    <p class="mt-4 text-xs text-[#AAB4BA]/40 reveal">Brands listed are available for supply. Brand names are trademarks of their respective owners.</p>
+  </div>
+</section>

@@ -1,0 +1,224 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import '../../../styles/global.css';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { category: product.data.category, product: product.data.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+
+const categories = await getCollection('categories');
+const cat = categories.find((c) => c.data.slug === product.data.category);
+
+// Related products: same category, different slug
+const allProducts = await getCollection('products');
+const related = allProducts
+  .filter((p) => p.data.category === product.data.category && p.data.slug !== product.data.slug && p.data.available)
+  .slice(0, 3);
+
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.data.name,
+  description: product.data.shortDescription,
+  image: product.data.images[0] ?? '',
+  brand: product.data.brand ? { '@type': 'Brand', name: product.data.brand } : undefined,
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+    priceCurrency: 'INR',
+    seller: { '@type': 'Organization', name: '[Company Name]' },
+  },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.url.origin },
+      { '@type': 'ListItem', position: 2, name: 'Products', item: `${Astro.url.origin}/products/` },
+      { '@type': 'ListItem', position: 3, name: cat?.data.name ?? product.data.category, item: `${Astro.url.origin}/products/${product.data.category}/` },
+      { '@type': 'ListItem', position: 4, name: product.data.name, item: Astro.url.href },
+    ],
+  },
+};
+---
+<BaseLayout
+  title={`${product.data.name} — ${cat?.data.name ?? ''} | AM Industrial`}
+  description={product.data.shortDescription}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products/' },
+      { label: cat?.data.name ?? product.data.category, href: `/products/${product.data.category}/` },
+      { label: product.data.name },
+    ]} />
+
+    <!-- Product detail -->
+    <section class="py-16 bg-[#0B0F12]">
+      <div class="container">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
+
+          <!-- Images -->
+          <div class="space-y-3">
+            <div class="aspect-[4/3] bg-[#151C21] border border-white/10 overflow-hidden">
+              {product.data.images[0] ? (
+                <img
+                  src={product.data.images[0]}
+                  alt={product.data.name}
+                  width="800" height="600"
+                  loading="eager" decoding="async"
+                  class="w-full h-full object-cover"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true" class="opacity-10">
+                    <rect x="2" y="2" width="60" height="60" stroke="#F97316" stroke-width="1"/>
+                    <circle cx="32" cy="32" r="20" stroke="#F97316" stroke-width="1"/>
+                    <line x1="32" y1="2" x2="32" y2="62" stroke="#F97316" stroke-width="0.5"/>
+                    <line x1="2" y1="32" x2="62" y2="32" stroke="#F97316" stroke-width="0.5"/>
+                  </svg>
+                </div>
+              )}
+            </div>
+            {product.data.images.length > 1 && (
+              <div class="grid grid-cols-4 gap-2">
+                {product.data.images.slice(1).map((img) => (
+                  <div class="aspect-square bg-[#151C21] border border-white/10 overflow-hidden">
+                    <img src={img} alt={product.data.name} width="200" height="200" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity cursor-pointer"/>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <!-- Info -->
+          <div>
+            {product.data.brand && (
+              <p class="text-xs text-[#F97316] font-medium mb-2" style="font-family:var(--font-heading)">{product.data.brand}</p>
+            )}
+            <h1 class="text-2xl lg:text-3xl font-700 text-[#F4F5F2] mb-4 leading-tight" style="font-family:var(--font-heading)">{product.data.name}</h1>
+            <p class="text-[#AAB4BA] text-sm leading-relaxed mb-8">{product.data.shortDescription}</p>
+
+            <!-- Specifications -->
+            {product.data.specifications && Object.keys(product.data.specifications).length > 0 && (
+              <div class="mb-8">
+                <h2 class="text-xs font-600 text-[#F4F5F2] uppercase tracking-wider mb-4 pb-2 border-b border-white/10" style="font-family:var(--font-heading);letter-spacing:0.1em">Specifications</h2>
+                <dl class="space-y-2">
+                  {Object.entries(product.data.specifications).map(([key, val]) => (
+                    <div class="grid grid-cols-2 gap-4 py-2 border-b border-white/5">
+                      <dt class="text-xs text-[#AAB4BA]">{key}</dt>
+                      <dd class="text-xs text-[#F4F5F2] font-medium">{val}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
+
+            <!-- Applications -->
+            {product.data.applications.length > 0 && (
+              <div class="mb-8">
+                <h2 class="text-xs font-600 text-[#F4F5F2] uppercase tracking-wider mb-3" style="font-family:var(--font-heading);letter-spacing:0.1em">Applications</h2>
+                <ul class="flex flex-wrap gap-2">
+                  {product.data.applications.map((app) => (
+                    <li class="text-xs text-[#AAB4BA] border border-white/10 px-3 py-1">{app}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <!-- CTAs -->
+            <div class="flex flex-wrap gap-3 pt-4 border-t border-white/10">
+              <a
+                href={`/enquiry/?product=${encodeURIComponent(product.data.name)}`}
+                class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors"
+                style="font-family:var(--font-heading)"
+              >
+                Request Quote
+              </a>
+              {whatsapp && (
+                <a
+                  href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Enquiry: ' + product.data.name)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#F4F5F2] text-sm font-medium hover:border-white/40 transition-colors"
+                  style="font-family:var(--font-heading)"
+                >
+                  WhatsApp
+                </a>
+              )}
+              {product.data.datasheet && (
+                <a
+                  href={product.data.datasheet}
+                  download
+                  class="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#AAB4BA] text-sm hover:text-[#F4F5F2] hover:border-white/40 transition-colors"
+                  style="font-family:var(--font-heading)"
+                >
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M7 2v7M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Datasheet
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <!-- Description body -->
+        <div class="mt-16 pt-12 border-t border-white/10 max-w-3xl">
+          <h2 class="text-lg font-600 text-[#F4F5F2] mb-6" style="font-family:var(--font-heading)">Product Description</h2>
+          <div class="prose-industrial text-[#AAB4BA] text-sm leading-relaxed space-y-4">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related products -->
+    {related.length > 0 && (
+      <section class="py-16 bg-[#11171B] border-t border-white/10">
+        <div class="container">
+          <h2 class="text-lg font-600 text-[#F4F5F2] mb-8" style="font-family:var(--font-heading)">Related Products</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+            {related.map((rel) => (
+              <a href={`/products/${rel.data.category}/${rel.data.slug}/`} class="group bg-[#11171B] flex flex-col border border-transparent hover:border-white/10 transition-all duration-250 p-6">
+                <p class="text-xs text-[#F97316] mb-1" style="font-family:var(--font-heading)">{rel.data.brand}</p>
+                <h3 class="text-sm font-600 text-[#F4F5F2] mb-2" style="font-family:var(--font-heading)">{rel.data.name}</h3>
+                <p class="text-xs text-[#AAB4BA] leading-relaxed flex-1 mb-3">{rel.data.shortDescription}</p>
+                <span class="text-xs text-[#F97316] flex items-center gap-1 group-hover:gap-2 transition-all" style="font-family:var(--font-heading)">
+                  View
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Enquiry CTA -->
+    <section class="py-14 bg-[#0B0F12] border-t border-white/10">
+      <div class="container text-center">
+        <h2 class="text-xl font-700 text-[#F4F5F2] mb-3" style="font-family:var(--font-heading)">Need this product or a similar specification?</h2>
+        <p class="text-[#AAB4BA] text-sm mb-6">Send your requirement and we'll respond with availability and pricing.</p>
+        <a href={`/enquiry/?product=${encodeURIComponent(product.data.name)}`} class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors" style="font-family:var(--font-heading)">
+          Send Enquiry
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

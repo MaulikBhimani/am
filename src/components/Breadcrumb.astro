@@ -1,0 +1,28 @@
+---
+interface Crumb { label: string; href?: string; }
+interface Props { crumbs: Crumb[]; }
+const { crumbs } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class="pt-20 lg:pt-24 pb-4 border-b border-white/10 bg-[#0B0F12]">
+  <div class="container">
+    <ol class="flex items-center gap-2 flex-wrap" itemscope itemtype="https://schema.org/BreadcrumbList">
+      {crumbs.map((crumb, i) => (
+        <li class="flex items-center gap-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          {crumb.href && i < crumbs.length - 1 ? (
+            <a href={crumb.href} class="text-xs text-[#AAB4BA] hover:text-[#F4F5F2] transition-colors" itemprop="item">
+              <span itemprop="name">{crumb.label}</span>
+            </a>
+          ) : (
+            <span class="text-xs text-[#F4F5F2]/60" itemprop="name">{crumb.label}</span>
+          )}
+          {i < crumbs.length - 1 && (
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="text-[#AAB4BA]/30">
+              <path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          )}
+          <meta itemprop="position" content={String(i + 1)} />
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>

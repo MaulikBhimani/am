@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+<BaseLayout title="Page Not Found | AM Industrial">
+  <Header />
+  <main id="main-content" class="min-h-screen flex items-center justify-center bg-[#0B0F12]">
+    <div class="container text-center py-32">
+      <p class="text-xs text-[#F97316] tracking-widest uppercase mb-4" style="font-family: var(--font-heading); letter-spacing: 0.2em">404</p>
+      <h1 class="text-4xl lg:text-6xl font-700 text-[#F4F5F2] mb-6" style="font-family: var(--font-heading)">Page Not Found</h1>
+      <p class="text-[#AAB4BA] mb-10">The page you're looking for doesn't exist or has been moved.</p>
+      <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors" style="font-family: var(--font-heading)">
+        Back to Home
+      </a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

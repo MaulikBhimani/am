@@ -1,0 +1,107 @@
+---
+const navLinks = [
+  { label: 'Products', href: '/products/' },
+  { label: 'Manufacturing', href: '/manufacturing/' },
+  { label: 'Brands', href: '/brands/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Catalogue', href: '/catalogue/' },
+];
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="container flex items-center justify-between h-16 lg:h-20">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 font-heading font-700 text-lg tracking-tight text-[#F4F5F2]" aria-label="AM Industrial Home">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="26" height="26" stroke="#F97316" stroke-width="1.5"/>
+        <path d="M7 21L14 7L21 21" stroke="#F97316" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M9.5 16H18.5" stroke="#F97316" stroke-width="1.5"/>
+      </svg>
+      <span style="font-family: var(--font-heading)">AM <span class="text-[#F97316]">Enterprise</span></span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+      {navLinks.map(link => (
+        <a href={link.href} class="text-sm text-[#AAB4BA] hover:text-[#F4F5F2] transition-colors duration-200 relative group">
+          {link.label}
+          <span class="absolute -bottom-0.5 left-0 w-0 h-px bg-[#F97316] transition-all duration-300 group-hover:w-full"></span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a href="/contact/" class="hidden lg:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white transition-all duration-200" style="font-family: var(--font-heading)">
+        Contact Us
+      </a>
+      <!-- Mobile menu button -->
+      <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-bar block w-6 h-px bg-[#F4F5F2] transition-all duration-300"></span>
+        <span class="menu-bar block w-6 h-px bg-[#F4F5F2] transition-all duration-300"></span>
+        <span class="menu-bar block w-4 h-px bg-[#F97316] transition-all duration-300"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="fixed inset-0 z-40 bg-[#0B0F12] flex flex-col translate-x-full transition-transform duration-300 ease-out lg:hidden" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+  <div class="container flex items-center justify-between h-16">
+    <a href="/" class="font-heading font-700 text-lg text-[#F4F5F2]" style="font-family: var(--font-heading)">AM <span class="text-[#F97316]">Industrial</span></a>
+    <button id="menu-close" class="p-2 text-[#AAB4BA] hover:text-[#F4F5F2]" aria-label="Close menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-1 px-6 pt-8" aria-label="Mobile navigation">
+    {navLinks.map(link => (
+      <a href={link.href} class="text-2xl font-heading font-600 text-[#F4F5F2] py-3 border-b border-white/10 hover:text-[#F97316] transition-colors" style="font-family: var(--font-heading)">
+        {link.label}
+      </a>
+    ))}
+    <a href="/contact/" class="mt-8 inline-flex items-center justify-center px-6 py-3 bg-[#F97316] text-white font-medium text-base" style="font-family: var(--font-heading)">
+      Contact Us
+    </a>
+  </nav>
+</div>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const toggle = document.getElementById('menu-toggle')!;
+  const close = document.getElementById('menu-close')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  // Scroll behavior
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      header.style.background = 'rgba(11,15,18,0.95)';
+      header.style.backdropFilter = 'blur(12px)';
+      header.style.borderBottom = '1px solid rgba(255,255,255,0.08)';
+      header.classList.remove('lg:h-20');
+      header.querySelector('.container')?.classList.add('!h-14');
+    } else {
+      header.style.background = 'transparent';
+      header.style.backdropFilter = 'none';
+      header.style.borderBottom = 'none';
+      header.querySelector('.container')?.classList.remove('!h-14');
+    }
+  }, { passive: true });
+
+  function openMenu() {
+    menu.classList.remove('translate-x-full');
+    menu.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menu.classList.add('translate-x-full');
+    menu.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', openMenu);
+  close.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+</script>

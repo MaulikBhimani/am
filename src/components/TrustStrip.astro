@@ -1,0 +1,31 @@
+---
+const items = [
+  'Industrial Supply',
+  'Trading',
+  'Manufacturing',
+  'Technical Products',
+  'B2B Enquiries',
+];
+---
+<section class="border-y border-white/10 bg-[#11171B]" aria-label="Business areas">
+  <div class="container">
+    <!-- Desktop: single row -->
+    <div class="hidden sm:flex items-center justify-center gap-0 py-5">
+      {items.map((item, i) => (
+        <div class="flex items-center">
+          <span class="text-sm font-medium text-[#AAB4BA] px-6 whitespace-nowrap" style="font-family: var(--font-heading)">{item}</span>
+          {i < items.length - 1 && <span class="w-1 h-1 rounded-full bg-[#F97316]" aria-hidden="true"></span>}
+        </div>
+      ))}
+    </div>
+    <!-- Mobile: scroll -->
+    <div class="sm:hidden flex items-center overflow-x-auto py-5 gap-0 scrollbar-none" style="-webkit-overflow-scrolling: touch;">
+      {items.map((item, i) => (
+        <div class="flex items-center flex-shrink-0">
+          <span class="text-sm font-medium text-[#AAB4BA] px-5 whitespace-nowrap" style="font-family: var(--font-heading)">{item}</span>
+          {i < items.length - 1 && <span class="w-1 h-1 rounded-full bg-[#F97316]" aria-hidden="true"></span>}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import '../../styles/global.css';
+
+const products = [
+  {
+    number: '01',
+    name: 'Rotary Kiln',
+    eyebrow: 'Thermal Processing Equipment',
+    description: 'Industrial rotary kilns for cement clinker production, gypsum powder calcination and mineral thermal processing. Built with structural steel shell, refractory lining and variable-speed gear drive.',
+    specs: [
+      { label: 'Application', value: 'Cement, Gypsum, Lime, Minerals' },
+      { label: 'Operating Temp', value: 'Up to 1450°C' },
+      { label: 'Shell Rotation', value: '0.5 – 5 RPM (variable)' },
+      { label: 'Inclination', value: '1.5° – 5° (adjustable)' },
+      { label: 'Refractory', value: 'High-alumina / fireclay bricks' },
+      { label: 'Fuel', value: 'Coal / Gas / Oil' },
+    ],
+    applications: ['Cement clinker production', 'Gypsum powder calcination', 'Lime calcination', 'Mineral drying & calcination'],
+    images: ['/images/products/kiln/rotary-kiln.jpg', '/images/products/kiln/rotary-kiln-2.jpeg'],
+    href: '/products/manufactured-components/rotary-kiln/',
+  },
+  {
+    number: '02',
+    name: 'Industrial Mixture Machine',
+    eyebrow: '2-Ton Batch Capacity',
+    description: 'Heavy-duty 2-ton capacity industrial mixture machine for construction materials, mineral powders, gypsum compounds and aggregates. Robust steel construction with replaceable wear blades.',
+    specs: [
+      { label: 'Batch Capacity', value: '2 Ton (2000 kg)' },
+      { label: 'Motor Power', value: '15 – 22 kW' },
+      { label: 'Mixing Time', value: '3 – 8 min / batch' },
+      { label: 'Discharge', value: 'Bottom gate / tilting drum' },
+      { label: 'Blades', value: 'Heavy-duty steel, replaceable' },
+      { label: 'Frame', value: 'Structural steel' },
+    ],
+    applications: ['Cement & concrete mixing', 'Gypsum compound mixing', 'Mineral powder blending', 'Construction material production'],
+    images: ['/images/products/mixture/mixture-mechine-1.jpg', '/images/products/mixture/mixture-mechine-2.jpeg', '/images/products/mixture/mixture-mechine-3.jpeg'],
+    video: '/images/products/mixture/mixture-machine.mp4',
+    href: '/products/manufactured-components/mixture-machine-2ton/',
+  },
+];
+---
+<BaseLayout
+  title="Manufacturing — Rotary Kilns & Industrial Mixture Machines | AM Industrial"
+  description="AM Industrial manufactures rotary kilns for cement and gypsum processing, and 2-ton industrial mixture machines for construction and mineral applications."
+>
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[{ label: 'Home', href: '/' }, { label: 'Manufacturing' }]} />
+    <PageHero
+      eyebrow="Manufacturing"
+      title="Beyond Trading. We Manufacture Selected Equipment."
+      subtitle="Rotary kilns for cement and gypsum processing. Industrial mixture machines for construction and mineral applications. Manufactured in-house to specification."
+      noPadTop
+    />
+
+    <!-- Intro -->
+    <section class="py-16 bg-[#0B0F12] border-b border-white/10">
+      <div class="container">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="text-[#AAB4BA] text-sm leading-relaxed space-y-4">
+            <p>We combine industrial product trading with the manufacture of selected heavy equipment — giving customers access to a broad product range alongside in-house production capability.</p>
+            <p>Our manufacturing focus is on rotary kilns for thermal processing and industrial mixture machines for construction and mineral applications. Both product lines are built to customer requirements.</p>
+          </div>
+          <div class="grid grid-cols-2 gap-px bg-white/5">
+            {[
+              { label: 'Rotary Kilns', sub: 'Cement · Gypsum · Lime' },
+              { label: 'Mixture Machines', sub: '2-Ton Batch Capacity' },
+              { label: 'Custom Build', sub: 'To your specification' },
+              { label: 'In-House', sub: 'Manufacturing capability' },
+            ].map(item => (
+              <div class="bg-[#0B0F12] p-6 border border-white/5">
+                <p class="text-sm font-600 text-[#F4F5F2] mb-1" style="font-family:var(--font-heading)">{item.label}</p>
+                <p class="text-xs text-[#AAB4BA]">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    {products.map((product, idx) => (
+      <section class={`py-20 ${idx % 2 === 0 ? 'bg-[#11171B]' : 'bg-[#0B0F12]'} border-b border-white/10`}>
+        <div class="container">
+          <div class={`grid lg:grid-cols-2 gap-16 items-start ${idx % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+
+            <!-- Images -->
+            <div class={`space-y-3 ${idx % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+              <div class="relative aspect-[4/3] bg-[#151C21] border border-white/10 overflow-hidden">
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  width="800" height="600"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F97316]"></div>
+                <div class="absolute top-3 left-3 bg-[#0B0F12]/80 px-2 py-1">
+                  <span class="text-xs text-[#F97316] font-mono">{product.number}</span>
+                </div>
+              </div>
+              {product.images.length > 1 && (
+                <div class="grid grid-cols-3 gap-2">
+                  {product.images.slice(1).map((img) => (
+                    <div class="aspect-[4/3] bg-[#151C21] border border-white/10 overflow-hidden">
+                      <img src={img} alt={product.name} width="300" height="225" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-70 hover:opacity-100 transition-opacity"/>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {product.video && (
+                <div class="border border-white/10 bg-[#151C21] p-4">
+                  <p class="text-xs text-[#AAB4BA] mb-3 flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#F97316" stroke-width="1"/><path d="M5.5 4.5l4 2.5-4 2.5V4.5z" fill="#F97316"/></svg>
+                    Working demonstration
+                  </p>
+                  <video
+                    controls
+                    muted
+                    playsinline
+                    preload="none"
+                    poster={product.images[0]}
+                    class="w-full aspect-video bg-[#0B0F12]"
+                    aria-label={`${product.name} demonstration video`}
+                  >
+                    <source src={product.video} type="video/mp4" />
+                  </video>
+                </div>
+              )}
+            </div>
+
+            <!-- Content -->
+            <div class={idx % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
+              <div class="flex items-center gap-3 mb-2">
+                <span class="block w-6 h-px bg-[#F97316]"></span>
+                <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family:var(--font-heading);letter-spacing:0.18em">{product.eyebrow}</span>
+              </div>
+              <h2 class="text-2xl lg:text-3xl font-700 text-[#F4F5F2] mb-4 leading-tight" style="font-family:var(--font-heading)">{product.name}</h2>
+              <p class="text-[#AAB4BA] text-sm leading-relaxed mb-8">{product.description}</p>
+
+              <!-- Specs -->
+              <div class="mb-8">
+                <h3 class="text-xs font-600 text-[#F4F5F2] uppercase tracking-wider mb-4 pb-2 border-b border-white/10" style="font-family:var(--font-heading);letter-spacing:0.1em">Key Specifications</h3>
+                <dl class="space-y-0">
+                  {product.specs.map(spec => (
+                    <div class="grid grid-cols-2 gap-4 py-2.5 border-b border-white/5">
+                      <dt class="text-xs text-[#AAB4BA]">{spec.label}</dt>
+                      <dd class="text-xs text-[#F4F5F2] font-medium">{spec.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <!-- Applications -->
+              <div class="mb-8">
+                <h3 class="text-xs font-600 text-[#F4F5F2] uppercase tracking-wider mb-3" style="font-family:var(--font-heading);letter-spacing:0.1em">Applications</h3>
+                <ul class="flex flex-wrap gap-2">
+                  {product.applications.map(app => (
+                    <li class="text-xs text-[#AAB4BA] border border-white/10 px-3 py-1">{app}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="flex flex-wrap gap-3 pt-4 border-t border-white/10">
+                <a href={`/enquiry/?product=${encodeURIComponent(product.name)}`} class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors" style="font-family:var(--font-heading)">
+                  Request Quote
+                </a>
+                <a href={product.href} class="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#F4F5F2] text-sm hover:border-white/40 transition-colors" style="font-family:var(--font-heading)">
+                  Full Details
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Process -->
+    <section class="py-16 bg-[#11171B]">
+      <div class="container">
+        <h2 class="text-xl font-700 text-[#F4F5F2] mb-10" style="font-family:var(--font-heading)">How It Works</h2>
+        <div class="grid sm:grid-cols-3 gap-px bg-white/5">
+          {[
+            { step: '01', title: 'Send Your Requirement', body: 'Share your material type, required capacity, operating conditions or drawings.' },
+            { step: '02', title: 'We Review & Respond', body: 'We assess feasibility and respond with specification, lead time and pricing.' },
+            { step: '03', title: 'Manufacture & Delivery', body: 'On confirmation, we manufacture to your requirement and arrange delivery.' },
+          ].map(s => (
+            <div class="bg-[#11171B] p-8">
+              <span class="text-3xl font-700 text-[#F97316]/20 block mb-4" style="font-family:var(--font-heading)">{s.step}</span>
+              <h3 class="text-sm font-600 text-[#F4F5F2] mb-2" style="font-family:var(--font-heading)">{s.title}</h3>
+              <p class="text-xs text-[#AAB4BA] leading-relaxed">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-14 bg-[#0B0F12] border-t border-white/10">
+      <div class="container text-center">
+        <h2 class="text-xl font-700 text-[#F4F5F2] mb-3" style="font-family:var(--font-heading)">Discuss your manufacturing requirement</h2>
+        <p class="text-[#AAB4BA] text-sm mb-6">Send us your specification and we'll respond with availability, lead time and pricing.</p>
+        <a href="/enquiry/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors" style="font-family:var(--font-heading)">
+          Send Enquiry
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

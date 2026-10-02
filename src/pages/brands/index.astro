@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import '../../styles/global.css';
+
+const brands = await getCollection('brands');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Brands We Supply',
+  description: 'Industrial product brands available through AM Industrial — Mangalam, Vulcan Welding, Yuri Smart Engineering, Crompton, Bharat Bijlee.',
+  url: Astro.url.href,
+};
+---
+<BaseLayout
+  title="Brands We Supply — Mangalam, Crompton, Bharat Bijlee | AM Industrial"
+  description="Industrial product brands available through AM Industrial: Mangalam welding rods, Vulcan Welding machines, Yuri cutting discs, Crompton and Bharat Bijlee motors."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[{ label: 'Home', href: '/' }, { label: 'Brands' }]} />
+    <PageHero
+      eyebrow="Available Brands"
+      title="Brands We Supply"
+      subtitle="Industrial product brands available for supply. Brand names are trademarks of their respective owners."
+      noPadTop
+    />
+
+    <section class="py-16 bg-[#0B0F12]">
+      <div class="container">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+          {brands.map((brand) => (
+            <a
+              href={`/brands/${brand.data.slug}/`}
+              class="group bg-[#0B0F12] p-8 flex flex-col border border-transparent hover:border-white/10 transition-all duration-250"
+            >
+              <div class="flex items-start justify-between mb-6">
+                <div class="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-[#F97316]/40 transition-colors">
+                  <span class="text-lg font-700 text-[#F97316]" style="font-family:var(--font-heading)">{brand.data.name.charAt(0)}</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="text-[#AAB4BA]/30 group-hover:text-[#F97316] transition-colors mt-1">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h2 class="text-base font-600 text-[#F4F5F2] mb-3" style="font-family:var(--font-heading)">{brand.data.name}</h2>
+              <p class="text-xs text-[#AAB4BA] leading-relaxed flex-1 mb-4">{brand.data.description}</p>
+              {brand.data.categories.length > 0 && (
+                <div class="flex flex-wrap gap-1.5">
+                  {brand.data.categories.map((c) => (
+                    <span class="text-xs text-[#AAB4BA]/50 border border-white/10 px-2 py-0.5">{c.replace(/-/g, ' ')}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

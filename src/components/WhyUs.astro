@@ -1,0 +1,46 @@
+---
+const cards = [
+  {
+    title: 'Product Knowledge',
+    body: 'Industrial products selected with application requirements in mind — not just catalogue listings.',
+    icon: `<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#F97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  },
+  {
+    title: 'Multi-Category Supply',
+    body: 'A broad range of industrial products from one supplier — welding, motors, gears, conveyors and more.',
+    icon: `<rect x="3" y="3" width="7" height="7" stroke="#F97316" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" stroke="#F97316" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" stroke="#F97316" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" stroke="#F97316" stroke-width="1.5"/>`,
+  },
+  {
+    title: 'Trading + Manufacturing',
+    body: 'Trading capability combined with selected in-house manufacturing for specific component requirements.',
+    icon: `<circle cx="12" cy="12" r="3" stroke="#F97316" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="#F97316" stroke-width="1.5" stroke-linecap="round"/>`,
+  },
+  {
+    title: 'Enquiry Support',
+    body: 'A straightforward process for product and requirement enquiries — send your requirement and we respond.',
+    icon: `<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  },
+];
+---
+<section class="py-24 bg-[#11171B]" aria-labelledby="whyus-heading">
+  <div class="container">
+    <div class="text-center mb-14 reveal">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <span class="block w-6 h-px bg-[#F97316]"></span>
+        <span class="text-xs text-[#F97316] tracking-widest uppercase" style="font-family: var(--font-heading); letter-spacing: 0.18em">Why Work With Us</span>
+        <span class="block w-6 h-px bg-[#F97316]"></span>
+      </div>
+      <h2 id="whyus-heading" class="text-2xl lg:text-3xl font-700 text-[#F4F5F2]" style="font-family: var(--font-heading)">What We Bring to the Table</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+      {cards.map((card, i) => (
+        <div class="reveal bg-[#11171B] p-8 border border-transparent hover:border-white/10 transition-colors duration-200" style={`transition-delay: ${i * 0.07}s`}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mb-5" aria-hidden="true" set:html={card.icon}/>
+          <h3 class="text-sm font-600 text-[#F4F5F2] mb-3" style="font-family: var(--font-heading)">{card.title}</h3>
+          <p class="text-xs text-[#AAB4BA] leading-relaxed">{card.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

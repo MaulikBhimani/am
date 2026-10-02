@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PageHero from "../../components/PageHero.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import "../../styles/global.css";
+---
+
+<BaseLayout
+  title="About — Industrial Trading & Manufacturing | AM Industrial"
+  description="AM Industrial is an industrial trading and manufacturing company supplying welding products, motors, gears, conveyor belts, electrical panels and selected manufactured components."
+>
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[{ label: "Home", href: "/" }, { label: "About" }]} />
+    <PageHero
+      eyebrow="About"
+      title="From industrial products to engineered components."
+      subtitle="We combine industrial product trading with the manufacture of selected components."
+      noPadTop
+    />
+
+    <section class="py-20 bg-[#0B0F12]">
+      <div class="container">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+          <div class="space-y-6 text-[#AAB4BA] text-sm leading-relaxed">
+            <p>
+              AM Industrial is an industrial trading and manufacturing company.
+              We supply a broad range of industrial products — welding
+              consumables and machines, cutting tools, material handling
+              equipment, power transmission components, conveyor systems and
+              electrical panels.
+            </p>
+            <p>
+              Alongside trading, we manufacture selected components and parts
+              for specific industrial requirements, combining supply capability
+              with in-house production.
+            </p>
+            <p>
+              Our product range is selected with application requirements in
+              mind — not simply catalogue listings. We work with established
+              brands including Mangalam, Vulcan Welding, Yuri Smart Engineering,
+              Crompton and Bharat Bijlee.
+            </p>
+            <p class="text-[#F4F5F2]/40 italic text-xs">
+              [Company history, founding year, location and further background —
+              placeholder for actual company information.]
+            </p>
+
+            <div class="pt-6 border-t border-white/10">
+              <a
+                href="/contact/"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors"
+                style="font-family:var(--font-heading)"
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div
+              class="aspect-[4/3] bg-[#151C21] border border-white/10 overflow-hidden"
+            >
+              <!-- <img
+                src="/public/images/manufacturing/mixture machine.mp4"
+                alt="AM Industrial facility"
+                width="800" height="600"
+                loading="lazy" decoding="async"
+                class="w-full h-full object-cover opacity-60"
+                onerror="this.parentElement.style.background='#1B2328'"
+              /> -->
+              <video
+                src="/images/products/mixture/mixture-machine.mp4"
+                width="800"
+                height="600"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="none"
+                class="w-full h-full object-cover opacity-60"
+                poster="/images/products/mixture/mixture-mechine-1.jpg"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <!-- Values -->
+            <div class="grid grid-cols-2 gap-px bg-white/5">
+              {
+                [
+                  {
+                    label: "Product Knowledge",
+                    body: "Products selected for application requirements.",
+                  },
+                  {
+                    label: "Multi-Category Supply",
+                    body: "Broad range from one supplier.",
+                  },
+                  {
+                    label: "Trading + Manufacturing",
+                    body: "Supply and in-house production.",
+                  },
+                  {
+                    label: "Enquiry Support",
+                    body: "Straightforward enquiry process.",
+                  },
+                ].map((v) => (
+                  <div class="bg-[#0B0F12] p-5">
+                    <h3
+                      class="text-xs font-600 text-[#F4F5F2] mb-1.5"
+                      style="font-family:var(--font-heading)"
+                    >
+                      {v.label}
+                    </h3>
+                    <p class="text-xs text-[#AAB4BA]">{v.body}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

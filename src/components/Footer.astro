@@ -1,0 +1,76 @@
+---
+const cols = [
+  {
+    heading: 'Company',
+    links: [
+      { label: 'About', href: '/about/' },
+      { label: 'Manufacturing', href: '/manufacturing/' },
+      { label: 'Products', href: '/products/' },
+      { label: 'Brands', href: '/brands/' },
+      { label: 'Catalogue', href: '/catalogue/' },
+      { label: 'Contact', href: '/contact/' },
+    ],
+  },
+  {
+    heading: 'Products',
+    links: [
+      { label: 'Welding Rods', href: '/products/welding-rods/' },
+      { label: 'Welding Machines', href: '/products/welding-machines/' },
+      { label: 'Cutting Discs', href: '/products/cutting-discs/' },
+      { label: 'Motors', href: '/products/motors/' },
+      { label: 'Gears', href: '/products/gears/' },
+      { label: 'Conveyor Belts', href: '/products/conveyor-belts/' },
+      { label: 'Electrical Panels', href: '/products/electrical-panels/' },
+    ],
+  },
+  {
+    heading: 'Contact',
+    links: [
+      { label: '9737363005', href: '#' },
+      { label: 'aakashbhimani18@gmail.com', href: '#' },
+      { label: 'Rajkot, Gujarat', href: '#' },
+    ],
+  },
+];
+---
+<footer class="bg-[#11171B] border-t border-white/10" role="contentinfo">
+  <div class="container py-16">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+      <!-- Brand -->
+      <div class="col-span-2 lg:col-span-1">
+        <a href="/" class="inline-flex items-center gap-2 mb-4" aria-label="AM Industrial Home">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="26" height="26" stroke="#F97316" stroke-width="1.5"/>
+            <path d="M7 21L14 7L21 21" stroke="#F97316" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9.5 16H18.5" stroke="#F97316" stroke-width="1.5"/>
+          </svg>
+          <span class="font-600 text-[#F4F5F2]" style="font-family: var(--font-heading)">AM <span class="text-[#F97316]">Industrial</span></span>
+        </a>
+        <p class="text-xs text-[#AAB4BA] leading-relaxed max-w-xs">
+          Industrial trading and manufacturing. Welding, motors, gears, conveyor systems, electrical panels and more.
+        </p>
+      </div>
+
+      {cols.map(col => (
+        <div>
+          <h3 class="text-xs font-600 text-[#F4F5F2] mb-4 uppercase tracking-wider" style="font-family: var(--font-heading); letter-spacing: 0.12em">{col.heading}</h3>
+          <ul class="space-y-2.5">
+            {col.links.map(link => (
+              <li>
+                <a href={link.href} class="text-xs text-[#AAB4BA] hover:text-[#F4F5F2] transition-colors duration-200">{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <p class="text-xs text-[#AAB4BA]/50">© {new Date().getFullYear()} A M Enterprise. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="/privacy/" class="text-xs text-[#AAB4BA]/50 hover:text-[#AAB4BA] transition-colors">Privacy Policy</a>
+        <a href="/terms/" class="text-xs text-[#AAB4BA]/50 hover:text-[#AAB4BA] transition-colors">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>

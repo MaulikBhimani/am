@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import '../../styles/global.css';
+
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout
+  title="Product Catalogue — Industrial Products | AM Industrial"
+  description="Download or browse the AM Industrial product catalogue covering welding, motors, gears, conveyor belts, electrical panels and industrial components."
+>
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[{ label: 'Home', href: '/' }, { label: 'Catalogue' }]} />
+    <PageHero
+      eyebrow="Product Catalogue"
+      title="Explore Our Industrial Product Range"
+      subtitle="Browse our full catalogue of industrial products or download the PDF for offline reference."
+      noPadTop
+    />
+
+    <section class="py-16 bg-[#0B0F12]">
+      <div class="container">
+        <!-- Download CTA -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-8 border border-white/10 bg-[#151C21] mb-14">
+          <div class="flex-1">
+            <h2 class="text-base font-600 text-[#F4F5F2] mb-1" style="font-family:var(--font-heading)">Product Catalogue PDF</h2>
+            <p class="text-xs text-[#AAB4BA]">Full product range for offline reference. [PDF available once catalogue is finalised.]</p>
+          </div>
+          <a
+            href="/catalogue/company-catalogue.pdf"
+            download
+            class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors"
+            style="font-family:var(--font-heading)"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 2v7M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download PDF
+          </a>
+        </div>
+
+        <!-- Category grid -->
+        <h2 class="text-lg font-600 text-[#F4F5F2] mb-6" style="font-family:var(--font-heading)">Browse by Category</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-white/5">
+          {categories.map((cat) => (
+            <a
+              href={`/products/${cat.data.slug}/`}
+              class="group bg-[#0B0F12] p-6 flex items-center justify-between border border-transparent hover:border-white/10 transition-all duration-250"
+            >
+              <span class="text-sm font-500 text-[#F4F5F2] group-hover:text-[#F97316] transition-colors" style="font-family:var(--font-heading)">{cat.data.name}</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-[#AAB4BA]/30 group-hover:text-[#F97316] transition-colors group-hover:translate-x-1 duration-200">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import '../../../styles/global.css';
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  return categories.map((cat) => ({ params: { category: cat.data.slug } }));
+}
+
+const { category } = Astro.params;
+const categories = await getCollection('categories');
+const cat = categories.find((c) => c.data.slug === category);
+if (!cat) return Astro.redirect('/products/');
+
+const allProducts = await getCollection('products');
+const products = allProducts.filter((p) => p.data.category === category && p.data.available);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: cat.data.name,
+  description: cat.data.description,
+  url: Astro.url.href,
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.url.origin },
+      { '@type': 'ListItem', position: 2, name: 'Products', item: `${Astro.url.origin}/products/` },
+      { '@type': 'ListItem', position: 3, name: cat.data.name, item: Astro.url.href },
+    ],
+  },
+};
+---
+<BaseLayout
+  title={`${cat.data.name} — Industrial Products | AM Industrial`}
+  description={cat.data.description}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <Header />
+  <main id="main-content">
+    <Breadcrumb crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products/' },
+      { label: cat.data.name },
+    ]} />
+    <PageHero
+      eyebrow="Products"
+      title={cat.data.name}
+      subtitle={cat.data.description}
+      noPadTop
+    />
+
+    <section class="py-16 bg-[#0B0F12]">
+      <div class="container">
+        {products.length > 0 ? (
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+            {products.map((product) => (
+              <a
+                href={`/products/${category}/${product.data.slug}/`}
+                class="group bg-[#0B0F12] flex flex-col border border-transparent hover:border-white/10 transition-all duration-250"
+              >
+                <div class="relative aspect-[4/3] overflow-hidden bg-[#151C21]">
+                  {product.data.images[0] && (
+                    <img
+                      src={product.data.images[0]}
+                      alt={product.data.name}
+                      width="600" height="450"
+                      loading="lazy" decoding="async"
+                      class="w-full h-full object-cover opacity-60 transition-transform duration-300 group-hover:scale-[1.03]"
+                    />
+                  )}
+                  <div class="absolute top-0 left-0 right-0 h-0.5 bg-[#F97316] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                  {product.data.brand && (
+                    <div class="absolute bottom-3 left-3">
+                      <span class="text-xs bg-[#0B0F12]/80 text-[#F97316] px-2 py-1 font-medium" style="font-family:var(--font-heading)">{product.data.brand}</span>
+                    </div>
+                  )}
+                </div>
+                <div class="p-6 flex flex-col flex-1">
+                  <h2 class="text-sm font-600 text-[#F4F5F2] mb-2" style="font-family:var(--font-heading)">{product.data.name}</h2>
+                  <p class="text-xs text-[#AAB4BA] leading-relaxed flex-1 mb-4">{product.data.shortDescription}</p>
+                  <div class="flex items-center gap-2 text-xs text-[#F97316]" style="font-family:var(--font-heading)">
+                    <span>View details</span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform duration-200 group-hover:translate-x-1">
+                      <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="py-24 text-center border border-white/10">
+            <p class="text-[#AAB4BA] text-sm mb-6">Products in this category are being added. Send us your requirement directly.</p>
+            <a href="/enquiry/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-white text-sm font-medium hover:bg-[#FF8A1F] transition-colors" style="font-family:var(--font-heading)">
+              Send Enquiry
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="py-12 bg-[#11171B] border-t border-white/10">
+      <div class="container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <p class="text-sm font-600 text-[#F4F5F2] mb-1" style="font-family:var(--font-heading)">Need a specific {cat.data.name.toLowerCase()} product?</p>
+          <p class="text-xs text-[#AAB4BA]">Send your requirement and we'll respond with availability and pricing.</p>
+        </div>
+        <a href="/enquiry/" class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 border border-[#F97316] text-[#F97316] text-sm font-medium hover:bg-[#F97316] hover:text-white transition-all duration-200" style="font-family:var(--font-heading)">
+          Request Quote
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

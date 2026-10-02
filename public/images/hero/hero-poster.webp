@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#11171B"/>
+  <defs>
+    <pattern id="g" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#F4F5F2" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#g)"/>
+  <circle cx="960" cy="540" r="300" stroke="#F97316" stroke-width="0.5" fill="none" opacity="0.2"/>
+  <circle cx="960" cy="540" r="200" stroke="#F97316" stroke-width="0.5" fill="none" opacity="0.15"/>
+  <line x1="960" y1="0" x2="960" y2="1080" stroke="#F97316" stroke-width="0.5" opacity="0.1"/>
+  <line x1="0" y1="540" x2="1920" y2="540" stroke="#F97316" stroke-width="0.5" opacity="0.1"/>
+  <text x="960" y="555" text-anchor="middle" fill="#F97316" font-size="18" font-family="monospace" opacity="0.4">HERO IMAGE PLACEHOLDER</text>
+  <text x="960" y="580" text-anchor="middle" fill="#AAB4BA" font-size="12" font-family="monospace" opacity="0.3">Replace with optimized industrial/welding image or video</text>
+</svg>
